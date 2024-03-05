@@ -1,4 +1,5 @@
 const express = require('express');
+const adminroutes = require('./routes/adminRoutes');
 const path = require('path');
 const ejs = require('ejs');
 
@@ -10,7 +11,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 // const { error } = require('console');
 
-const loginroutes = require('./routes/loginRoutes');
+// const loginroutes = require('./routes/loginRoutes');
 
 // connection to database
 mongoose
@@ -36,22 +37,21 @@ app.use(bodyParser.urlencoded({extended:true}));
 // });
 
 
-app.use('/' , loginroutes);
-app.get('/about', (req, res)=>{
+// app.use('/' , loginroutes);
+// app.get('/admin', (req, res)=>{
 
-  res.render('about');
+//   res.render('adminview/dashboard');
 
-});
-app.get('/blog', (req, res)=>{
+// });
 
-  res.render('blog-detail');
+// app.use('/admin', adminroutes);
+app.use('/', adminroutes);
 
-});
-app.get('/product', (req, res)=>{
+// app.get('/product', (req, res)=>{
 
-  res.render('product');
+//   res.render('product');
 
-});
+// });
 // app.use('/login', loginroutes);
 
 // app.post('/login', loginroutes);
