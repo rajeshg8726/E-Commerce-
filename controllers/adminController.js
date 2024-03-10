@@ -170,7 +170,7 @@ const save_edit_product = async (req, res) => {
            
           // Find the product by ID
           const single_product = await Product.findById(req.params.id);
-            console.log(single_product);
+            // console.log(single_product);
           // Update the product with the form data
           single_product.category = req.body.category;
           single_product.product_name = req.body.product_name;
@@ -179,20 +179,24 @@ const save_edit_product = async (req, res) => {
           single_product.details = req.body.details;
       
           // If image is uploaded, update the image path
-        //   if (!req.file) {
-        //     throw new Error('No file uploaded');
-        // }
-        
+          if (!req.file) {
+            throw new Error('No file uploaded');
+        }
+
+        single_product.image = req.file.filename;
       
           // Save the updated product
           await single_product.save();
       
       
-       
+          const product = await Product.find();
+          const categories = await product_category.find();
+  
         // Redirect to another route within the same controller
        
-        // res.render('adminview/product_add', { successMessage: 'Product saved successfully' });
-        res.status(200).json({ message: 'Edited Product Done!' });
+    //    res.status(200).json({ message: 'Edited Product Done!'  , product : single_product});
+        res. redirect(200 , '/product_list');
+
 
     } catch (error) {
         console.error(error); // Log the error to the console
@@ -228,6 +232,24 @@ const getProductImages = async (req, res) => {
     }
 }
 
+const deleteProduct = async (req, res) => {
+    try {
+      // Find the product by ID and delete it
+      const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+  
+      if (!deletedProduct) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+  
+      // Return a success message
+      res.status(200).json({ message: 'Product deleted successfully' });
+  
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+} 
+
 
 module.exports = {
     load_admin_dashboard,
@@ -236,6 +258,7 @@ module.exports = {
     addProductCategory,
     load_product_edit,
     save_edit_product,
+    deleteProduct,
     getProductImages,
     product_list,
     save_product,

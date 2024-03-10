@@ -3,7 +3,6 @@ const adminController = require('../controllers/adminController');
 const path = require('path');
 const ejs = require('ejs');
 const upload = require('../middleware/index');
-const Product = require('../models/adminModels/productDetailsModel')
 
 const router = express.Router();
 
@@ -24,7 +23,7 @@ router.get('/getAllCategories', adminController.getAllCategories);
 router.post('/save_product' , upload.single('image'), adminController.save_product);
 router.get('/product_list' , adminController.product_list);
 router.get('/edit_product/:id' , adminController.load_product_edit);
-router.delete('/delete_product/:id' , adminController.load_product_edit);
+router.delete('/delete_product/:id' , adminController.deleteProduct);
 router.put('/save_edit_product/:id', upload.single('image'), adminController.save_edit_product);
   
 

@@ -24,7 +24,7 @@
                 <h5>Add Product</h5>
               </div>
 
-              <form role="form" enctype="multipart/form-data" method="put" action="/save_edit_product/<%= product._id %>">
+              <form role="form" enctype="multipart/form-data"  id="updateProductForm">
                 <div class="card-body pt-0">
                   <div class="input-group input-group-outline mb-4">
                     <label for="exampleFormControlSelect1" class="form-label"></label>
@@ -75,3 +75,32 @@
       </main>
 
       <%- include('./layout/corefile'); %>
+
+      <script>
+        document.getElementById('updateProductForm').addEventListener('submit', async (event) => {
+          event.preventDefault(); // Prevent the default form submission
+      
+          const formData = new FormData(event.target); // Create a FormData object from the form
+      
+          const productId = '<%= product._id %>'; // Get the product ID from your server-side code
+          const url = `/save_edit_product/<%= product._id %>`;
+      
+          try {
+            const response = await fetch(url, {
+              method: 'PUT',
+              body: formData
+            });
+      
+            if (!response.ok) {
+              throw new Error('Failed to update product');
+            }
+      
+            // Handle successful response (e.g., show success message)
+            alert('Product Updated Successfull');
+            window.location.href ='/product_list';
+          } catch (error) {
+            console.error('Error updating product:', error);
+            // Handle error (e.g., show error message)
+          }
+        });
+      </script>

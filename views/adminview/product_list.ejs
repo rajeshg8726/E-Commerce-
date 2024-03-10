@@ -104,11 +104,11 @@
                                                             <i
                                                                 class="material-icons text-secondary position-relative text-lg">drive_file_rename_outline</i>
                                                         </a>
-                                                        <a href="/delete_product/<%= it._id %>" data-bs-toggle="tooltip"
+                                                        <button  onclick="deleteProduct('<%= it._id %>')" class="btn btn-icon"
                                                             data-bs-original-title="Delete product">
                                                             <i
                                                                 class="material-icons text-secondary position-relative text-lg">delete</i>
-                                                        </a>
+                                                        </button>
                                                     </td>
                                                 </tr>
                                                 <% }); %>
@@ -124,3 +124,28 @@
             </main>
 
             <%- include('./layout/datatable'); %>
+
+            
+<script>
+    async function deleteProduct(productId) {
+      try {
+        const response = await fetch(`/delete_product/${productId}`, {
+          method: 'DELETE'
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to delete product');
+        }
+  
+        // Handle successful response (e.g., show success message)
+        alert('Product deleted successfully');
+  
+        // Redirect or perform any other action after deleting the product
+        window.location.reload(); // For example, reload the page
+  
+      } catch (error) {
+        console.error('Error deleting product:', error);
+        // Handle error (e.g., show error message)
+      }
+    }
+  </script>
