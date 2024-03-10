@@ -10,6 +10,13 @@
         <%- include('./layout/navbar'); %>
 
           <!-- End Navbar -->
+          <!-- Display of success message -->
+          <% if (typeof successMessage !== 'undefined') { %>
+            <div class="alert alert-light" role="alert">
+                <%= successMessage %>
+            </div>
+        <% } %>
+        
           <div class="container-fluid my-3 py-3">
 
             <form role="form" class="text-start" method="post" action="/addProductCategory">
