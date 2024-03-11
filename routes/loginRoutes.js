@@ -5,6 +5,7 @@ const ejs = require('ejs');
 const router = express.Router();
 
 const bodyParser = require('body-parser');
+
 const UserController = require('../controllers/loginController');
 const AuthController = require('../controllers/authController');
 

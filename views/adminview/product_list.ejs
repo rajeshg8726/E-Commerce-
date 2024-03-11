@@ -10,39 +10,7 @@
 
 
                     <div class="container-fluid py-4">
-                        <div class="d-sm-flex justify-content-between">
-                            <div>
-                                <a href="javascript:;" class="btn btn-icon bg-gradient-primary">
-
-                                </a>
-                            </div>
-                            <div class="d-flex">
-                                <div class="dropdown d-inline">
-                                    <a href="javascript:;" class="btn btn-outline-dark dropdown-toggle "
-                                        data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
-                                        Filters
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3"
-                                        aria-labelledby="navbarDropdownMenuLink2" data-popper-placement="left-start">
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Status:
-                                                Paid</a></li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Status:
-                                                Refunded</a></li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Status:
-                                                Canceled</a></li>
-                                        <li>
-                                            <hr class="horizontal dark my-2">
-                                        </li>
-                                        <li><a class="dropdown-item border-radius-md text-danger"
-                                                href="javascript:;">Remove Filter</a></li>
-                                    </ul>
-                                </div>
-                                <button class="btn btn-icon btn-outline-dark ms-2 export" data-type="csv" type="button">
-                                    <i class="material-icons text-xs position-relative">archive</i>
-                                    Export CSV
-                                </button>
-                            </div>
-                        </div>
+                       
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
@@ -76,7 +44,7 @@
                                                                     id="customCheck1" checked>
                                                             </div>
                                                             <img class="w-10 ms-3"
-                                                                src="/product_images/<%= it._id %>"
+                                                                src="/uploads/product_images/<%= it.image %>"
                                                                 alt="<%= it.product_name %>">
                                                             <h6 class="ms-3 my-auto"><%= it.product_name %></h6>
                                                         </div>
@@ -91,7 +59,7 @@
                                                     <!-- <td class="text-sm">1</td> -->
                                                     <td class="text-sm"><%= it.qty %></td>
                                                     <td>
-                                                        <span class="badge badge-danger badge-sm">Out of Stock</span>
+                                                        <span class="badge badge-success badge-sm" style="color: green;">In Stock</span>
                                                     </td>
                                                     <td class="text-sm">
                                                         <a href="/view_product/<%= it._id %>" data-bs-toggle="tooltip"

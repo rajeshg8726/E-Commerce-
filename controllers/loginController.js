@@ -1,4 +1,8 @@
 const User = require('../models/loginModel');
+const product_category = require('../models/adminModels/productModels');
+const Product = require('../models/adminModels/productDetailsModel');
+
+
 
 // controllers/UserController.js
 
@@ -31,7 +35,11 @@ module.exports = {
       // Generate JWT token for authentication
       const token = AuthController.generateAuthToken(newUser);
       // res.status(201).json({ token });
-      res.render('index');
+      const product = await Product.find();
+      const categories = await product_category.find();
+
+  res.render('index' , { product : product , categories:categories });
+  
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Server Error' });
@@ -53,7 +61,11 @@ module.exports = {
       // Generate JWT token for authentication
       const token = AuthController.generateAuthToken(user);
       // res.status(200).json({ token });
-      res.render('index');
+      const product = await Product.find();
+      const categories = await product_category.find();
+
+  res.render('index' , { product : product , categories:categories });
+  
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Server Error' });

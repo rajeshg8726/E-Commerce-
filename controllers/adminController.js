@@ -250,11 +250,25 @@ const deleteProduct = async (req, res) => {
     }
 } 
 
+const load_demo_view = async (req, res) => {
+    try {
+        
+        res.render('adminview/demo');
+
+    } catch (error) {
+        
+        
+        res.status(500).json({ message: 'Internal server error' });
+
+    }
+
+}
 
 module.exports = {
     load_admin_dashboard,
     load_product_cat,
     load_product_add,
+    load_demo_view,
     addProductCategory,
     load_product_edit,
     save_edit_product,

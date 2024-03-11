@@ -1,14 +1,13 @@
 const express = require('express');
 const adminroutes = require('./routes/adminRoutes');
+const clientroutes = require('./routes/clientRoutes');
 const path = require('path');
 const ejs = require('ejs');
 const app = express();
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-// const { error } = require('console');
 
-// const loginroutes = require('./routes/loginRoutes');
 
 // connection to database
 mongoose
@@ -31,40 +30,13 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 
 
-// Route handler for rendering the HTML file with included styles and JavaScript
-// to load the view
-// app.get('/register', (req, res)=>{
-//   res.render('login');
-// });
+// routes for the admin side use 
+// app.use('/', adminroutes);
 
-
-// app.use('/' , loginroutes);
-// app.get('/admin', (req, res)=>{
-
-//   res.render('adminview/dashboard');
-
-// });
-
-// app.use('/admin', adminroutes);
-app.use('/', adminroutes);
-
-// app.get('/product', (req, res)=>{
-
-//   res.render('product');
-
-// });
-// app.use('/login', loginroutes);
-
-// app.post('/login', loginroutes);
-// app.get('/home' , loginroutes);
-
-// after submitting the form
-// Routes
-// app.post('/signup', UserController.signup);
-// app.post('/login', UserController.login);
-
-
+// routes for client side use
+app.use('/', clientroutes);
 
 app.listen(3000, () => {
     console.log('Server listening on port 3000');
 });
+
