@@ -36,6 +36,7 @@ const load_contact = async (req, res) => {
         res.status(500).json({message: 'Internal server error'});
     }
 }
+
 const load_product = async (req, res) => {
 
     try {
@@ -59,6 +60,7 @@ const load_cart = async (req, res) => {
         res.status(500).json({message: 'Internal server error'});
     }
 }
+
 const load_about = async (req, res) => {
 
     try {
@@ -84,6 +86,22 @@ const load_profile = async (req, res) => {
     }
 }
 
+const getProductById = async(req,res) => {
+try {
+    const productId = req.params.id;
+   const probyid = await Product.findById(productId);
+   const product = await Product.find();
+   const categories = await product_category.find();
+   res.render('product-detail', { product : product , categories:categories , probyid : probyid });
+// res.render('product-detail');
+// res.json({probyid});
+   
+} catch (error) {
+    res.status(500).json({message: 'Internal server error'});
+}
+
+}
+
 module.exports = {
     load_dashboard,
     load_blog,
@@ -92,9 +110,6 @@ module.exports = {
     load_contact,
     load_product,
     load_profile,
-
-
-
-
+    getProductById,
 
 }

@@ -12,12 +12,10 @@ const AuthController = require('../controllers/authController');
 
 
 router.get('/register', UserController.loadlogin);
-
-
-
 router.post('/signup', UserController.signup);
 router.post('/login', UserController.login);
 router.get('/logout',UserController.logout);
+
 
 
 router.get('/blog', clientController.load_blog);
@@ -27,6 +25,7 @@ router.get('/cart', clientController.load_cart);
 router.get('/contact', clientController.load_contact);
 router.get('/about', clientController.load_about);
 router.get('/dashboard', clientController.load_dashboard);
+router.get('/productById/:id', clientController.getProductById);
 
 
 
