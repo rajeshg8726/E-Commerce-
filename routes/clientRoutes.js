@@ -4,11 +4,14 @@ const path = require('path');
 const ejs = require('ejs');
 const upload = require('../middleware/index');
 
+
 const router = express.Router();
+
 
 
 const UserController = require('../controllers/loginController');
 const AuthController = require('../controllers/authController');
+
 
 
 router.get('/register', UserController.loadlogin);
@@ -26,6 +29,7 @@ router.get('/contact', clientController.load_contact);
 router.get('/about', clientController.load_about);
 router.get('/dashboard', clientController.load_dashboard);
 router.get('/productById/:id', clientController.getProductById);
+router.post('/add-to-cart' , clientController.addProductToCart);
 
 
 
