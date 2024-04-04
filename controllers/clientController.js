@@ -4,16 +4,36 @@ const product_category = require('../models/adminModels/productModels');
 const Cart = require('../models/adminModels/cartModel');
 const secret = "rajeshgupta@8726"
 const jwt = require('jsonwebtoken');
+const User = require('../models/loginModel');
+
+const load_home = async(req, res) => {
+    try {
+        const product = await Product.find();
+        const categories = await product_category.find();
+        
+        res.render('home-02', { product: product, categories: categories});
+
+    } catch (error) {
+        
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
 
 const load_dashboard = async (req, res) => {
 
     try {
-            const product = await Product.find();
-            const categories = await product_category.find();
-        res.render('index' , { product : product , categories:categories });
+        const product = await Product.find();
+        const categories = await product_category.find();
         
+        const token = req.cookies.usercookies; // Assuming the token is stored in a cookie named 'usercookies'
+        //    extracting the cookie from the token
+        const payload = jwt.decode(token);
+        const cart = await Cart.find({ user_id: payload.userId });
+        // console.log(cart);
+        res.render('index', { product: product, categories: categories, user_id: payload.userId, cart: cart });
+
     } catch (error) {
-        res.status(500).json({message: 'Internal server error'});
+        res.status(500).json({ message: 'Internal server error' });
     }
 }
 
@@ -22,10 +42,16 @@ const load_blog = async (req, res) => {
     try {
         const product = await Product.find();
         const categories = await product_category.find();
-        res.render('blog', { product : product , categories:categories });
         
+        const token = req.cookies.usercookies; // Assuming the token is stored in a cookie named 'usercookies'
+        //    extracting the cookie from the token
+        const payload = jwt.decode(token);
+        const cart = await Cart.find({ user_id: payload.userId });
+        // console.log(cart);
+        res.render('blog', { product: product, categories: categories, user_id: payload.userId, cart: cart });
+
     } catch (error) {
-        res.status(500).json({message: 'Internal server error'});
+        res.status(500).json({ message: 'Internal server error' });
     }
 }
 
@@ -34,10 +60,16 @@ const load_contact = async (req, res) => {
     try {
         const product = await Product.find();
         const categories = await product_category.find();
-        res.render('contact', { product : product , categories:categories });
         
+        const token = req.cookies.usercookies; // Assuming the token is stored in a cookie named 'usercookies'
+        //    extracting the cookie from the token
+        const payload = jwt.decode(token);
+        const cart = await Cart.find({ user_id: payload.userId });
+        // console.log(cart);
+        res.render('contact', { product: product, categories: categories, user_id: payload.userId, cart: cart });
+
     } catch (error) {
-        res.status(500).json({message: 'Internal server error'});
+        res.status(500).json({ message: 'Internal server error' });
     }
 }
 
@@ -46,11 +78,17 @@ const load_product = async (req, res) => {
     try {
         const product = await Product.find();
         const categories = await product_category.find();
-      
-        res.render('product', { product : product , categories:categories  });
         
+        const token = req.cookies.usercookies; // Assuming the token is stored in a cookie named 'usercookies'
+        //    extracting the cookie from the token
+        const payload = jwt.decode(token);
+        const cart = await Cart.find({ user_id: payload.userId });
+        // console.log(cart);
+        res.render('product', { product: product, categories: categories, user_id: payload.userId, cart: cart });
+
+
     } catch (error) {
-        res.status(500).json({message: 'Internal server error'});
+        res.status(500).json({ message: 'Internal server error' });
     }
 }
 
@@ -59,82 +97,211 @@ const load_cart = async (req, res) => {
     try {
         const product = await Product.find();
         const categories = await product_category.find();
-      
+
         const token = req.cookies.usercookies; // Assuming the token is stored in a cookie named 'usercookies'
         //    extracting the cookie from the token
         const payload = jwt.decode(token);
-        const cart = await Cart.find({user_id : payload.userId});
-        console.log(cart);
-        res.render('shoping-cart', { product : product , categories:categories  , user_id : payload.userId , cart : cart});
-        
+        const cart = await Cart.find({ user_id: payload.userId });
+       
+        res.render('shoping-cart', { product: product, categories: categories, user_id: payload.userId, cart: cart });
+
     } catch (error) {
-        res.status(500).json({message: 'Internal server error'});
+        res.status(500).json({ message: 'Internal server error' });
     }
 }
- 
+
+const load_order = async (req, res) => {
+
+    try {
+        const product = await Product.find();
+        const categories = await product_category.find();
+
+        const token = req.cookies.usercookies; // Assuming the token is stored in a cookie named 'usercookies'
+        //    extracting the cookie from the token
+        const payload = jwt.decode(token);
+        const cart = await Cart.find({ user_id: payload.userId });
+        // console.log(cart);
+        res.render('order', { product: product, categories: categories, user_id: payload.userId, cart: cart });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 const load_about = async (req, res) => {
 
     try {
         const product = await Product.find();
         const categories = await product_category.find();
-        res.render('about', { product : product , categories:categories });
         
+        const token = req.cookies.usercookies; // Assuming the token is stored in a cookie named 'usercookies'
+        //    extracting the cookie from the token
+        const payload = jwt.decode(token);
+        const cart = await Cart.find({ user_id: payload.userId });
+        // console.log(cart);
+        res.render('about', { product: product, categories: categories, user_id: payload.userId, cart: cart });
+
     } catch (error) {
-        res.status(500).json({message: 'Internal server error'});
+        res.status(500).json({ message: 'Internal server error' });
     }
 }
 
 
 const load_profile = async (req, res) => {
 
-try {
+    try {
         const product = await Product.find();
         const categories = await product_category.find();
-        res.render('profile', { product : product , categories:categories });
+        
+        const token = req.cookies.usercookies; // Assuming the token is stored in a cookie named 'usercookies'
+        //    extracting the cookie from the token
+        const payload = jwt.decode(token);
+        const loggeInUser = await User.findById(payload.userId);
+        const cart = await Cart.find({ user_id: payload.userId });
+
+
+        // console.log(loggeInUser);
+        res.render('profile', { product: product, categories: categories, user_id: payload.userId, cart: cart  , user : loggeInUser});
         
     } catch (error) {
-        res.status(500).json({message: 'Internal server error'});
+        res.status(500).json({ message: 'Internal server error' });
     }
 }
 
-const getProductById = async(req,res) => {
-try {
-   const productId = req.params.id;
-   const probyid = await Product.findById(productId);
-   const product = await Product.find();
-   const categories = await product_category.find();
-   const token = req.cookies.usercookies; // Assuming the token is stored in a cookie named 'usercookies'
-   //    extracting the cookie from the token
-   const payload = jwt.decode(token);
-   const cart = await Cart.find({user_id : payload.userId});
-   console.log(cart);
-   res.render('product-detail', { product : product , categories:categories , probyid : probyid , user_id : payload.userId , cart : cart });
+const load_checkout = async (req, res) => {
 
-} catch (error) {
-    res.status(500).json({message: 'Internal server error'});
+    try {
+        const cartarr = JSON.parse(req.query.cartArray);
+// console.log(cartarr);
+        const product = await Product.find();
+        const categories = await product_category.find();
+
+        const token = req.cookies.usercookies; // Assuming the token is stored in a cookie named 'usercookies'
+        //    extracting the cookie from the token
+        const payload = jwt.decode(token);
+        const cart = await Cart.find({ user_id: payload.userId });
+        console.log(cart);
+        let price = 0;
+        if (cart.length > 0 && product.length > 0) {
+            for (let i = 0; i < cart.length; i++) {
+                // Assuming cart[i].price is convertible to a number
+                // console.log(cart[i].product_id);
+                for(let j = 0; j<product.length; j++)
+                {
+                    // console.log(product[j]._id);
+                    if(cart[i].product_id.toString() === product[j]._id.toString())
+                    {
+                        price += product[j].price;
+
+                    }
+                }
+            }
+        }
+        // console.log(price);
+        
+        res.render('checkout', { product: product, categories: categories, user_id: payload.userId, cart: cart , total_price : price});
+
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
 }
+
+const load_confirm = async (req, res) => {
+
+    try {
+        const product = await Product.find();
+        const categories = await product_category.find();
+
+        const token = req.cookies.usercookies; // Assuming the token is stored in a cookie named 'usercookies'
+        //    extracting the cookie from the token
+        const payload = jwt.decode(token);
+        const cart = await Cart.find({ user_id: payload.userId });
+        // console.log(typeof(cart));
+        // console.log(cart);
+        let price = 0;
+        if (cart.length > 0 && product.length > 0) {
+            for (let i = 0; i < cart.length; i++) {
+                // Assuming cart[i].price is convertible to a number
+                // console.log(cart[i].product_id);
+                for(let j = 0; j<product.length; j++)
+                {
+                    // console.log(product[j]._id);
+                    if(cart[i].product_id.toString() === product[j]._id.toString())
+                    {
+                        price += product[j].price;
+
+                    }
+                }
+            }
+        }
+        // console.log(price);
+
+        res.render('confirmation', { product: product, categories: categories, user_id: payload.userId, cart: cart , total_price : price});
+
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+const getProductById = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const probyid = await Product.findById(productId);
+        const product = await Product.find();
+        const categories = await product_category.find();
+        const token = req.cookies.usercookies; // Assuming the token is stored in a cookie named 'usercookies'
+        //    extracting the cookie from the token
+        const payload = jwt.decode(token);
+        const cart = await Cart.find({ user_id: payload.userId });
+        //    console.log(cart);
+        res.render('product-detail', { product: product, categories: categories, probyid: probyid, user_id: payload.userId, cart: cart });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
 }
 
 const addProductToCart = async (req, res) => {
-        try {
-            // Extract product details from the request body
-            const { product_id, user_id } = req.body;
-        
-            // Create a new document in MongoDB collection
-            await Cart.create({
-              product_id: product_id,
-              user_id: user_id,
-              // Add more fields as needed
-            });
-        
- res.status(200).json({message: 'Product added in the cart successfully'});
-        
- 
+    try {
+        // Extract product details from the request body
+        const { product_id, user_id } = req.body;
+
+        // Create a new document in MongoDB collection
+        await Cart.create({
+            product_id: product_id,
+            user_id: user_id,
+            // Add more fields as needed
+        });
+
+        res.status(200).json({ message: 'Product added in the cart successfully' });
+
+
     } catch (error) {
-        res.status(500).json({message: 'Internal server error'});
-        
+        res.status(500).json({ message: 'Internal server error' });
+
     }
 }
+
+const deleteProductFromCart = async (req, res) => {
+    try {
+        id = req.params.id;
+      // Find the product by ID and delete it
+      const deletedProduct = await Cart.deleteMany({ product_id : id});
+        // console.log(deletedProduct);
+      if (!deletedProduct) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+  
+      // Return a success message
+      res.status(200).json({ message: 'Product deleted successfully' });
+  
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+} 
+
+
 
 module.exports = {
     load_dashboard,
@@ -144,8 +311,13 @@ module.exports = {
     load_contact,
     load_product,
     load_profile,
+    load_checkout,
+    load_confirm,
+    load_order,
+    load_home,
     getProductById,
     addProductToCart,
+    deleteProductFromCart,
 
 }
 

@@ -13,7 +13,6 @@ const UserController = require('../controllers/loginController');
 const AuthController = require('../controllers/authController');
 
 
-
 router.get('/register', UserController.loadlogin);
 router.post('/signup', UserController.signup);
 router.post('/login', UserController.login);
@@ -21,6 +20,7 @@ router.get('/logout',UserController.logout);
 
 
 
+router.get('/',clientController.load_home);
 router.get('/blog', clientController.load_blog);
 router.get('/product', clientController.load_product);
 router.get('/profile', clientController.load_profile);
@@ -30,9 +30,10 @@ router.get('/about', clientController.load_about);
 router.get('/dashboard', clientController.load_dashboard);
 router.get('/productById/:id', clientController.getProductById);
 router.post('/add-to-cart' , clientController.addProductToCart);
-
-
-
+router.delete('/delete_product/:id', clientController.deleteProductFromCart);
+router.get('/checkout',clientController.load_checkout);
+router.get('/confirm' , clientController.load_confirm);
+router.get('/order', clientController.load_order);
 
 
 

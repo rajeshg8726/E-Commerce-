@@ -3,7 +3,9 @@ const product_category = require('../models/adminModels/productModels');
 const Product = require('../models/adminModels/productDetailsModel');
 const session = require('express-session'); // Import express-session module
 const AuthController = require('./authController');
-
+const Cart = require('../models/adminModels/cartModel');
+const secret = "rajeshgupta@8726"
+const jwt = require('jsonwebtoken');
 module.exports = {
 
   async loadlogin(req, res) {
@@ -34,9 +36,18 @@ module.exports = {
       res.cookie('usercookies' , token);
       const product = await Product.find();
       const categories = await product_category.find();
-     
-      res.render('index', { product: product, categories: categories });
+      
+      // Assuming the token is stored in a cookie named 'usercookies'
+      //    extracting the cookie from the token
+      const payload = jwt.decode(token);
+      const loggeInUser = await User.findById(payload.userId);
+      const cart = await Cart.find({ user_id: payload.userId });
 
+     
+
+      // console.log(loggeInUser);
+      res.render('index', { product: product, categories: categories, user_id: payload.userId, cart: cart  , user : loggeInUser});
+      
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Server Error' });
@@ -61,16 +72,25 @@ module.exports = {
 
       // Generate JWT token for authentication
       const token = AuthController.generateAuthToken(user);
-      // res.status(200).json({ token });
+      // res.status(200).json({ token1 });
       res.cookie("usercookies", token);
       // Set user object in session
      
 
       const product = await Product.find();
       const categories = await product_category.find();
+ 
+      // Assuming the token is stored in a cookie named 'usercookies'
+      //    extracting the cookie from the token
+      const payload = jwt.decode(token);
+      const loggeInUser = await User.findById(payload.userId);
+      const cart = await Cart.find({ user_id: payload.userId });
 
-      res.render('index', { product: product, categories: categories });
+     
 
+      // console.log(loggeInUser);
+      res.render('index', { product: product, categories: categories, user_id: payload.userId, cart: cart  , user : loggeInUser});
+      
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Server Error' });
