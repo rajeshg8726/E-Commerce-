@@ -43,8 +43,8 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Static file serving
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
 
 
 

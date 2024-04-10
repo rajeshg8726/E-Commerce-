@@ -26,7 +26,7 @@ router.get('/edit_product/:id' , adminController.load_product_edit);
 router.delete('/delete_product/:id' , adminController.deleteProduct);
 router.put('/save_edit_product/:id', upload.single('image'), adminController.save_edit_product);
 router.get('/demo' , adminController.load_demo_view);  
-
+router.get('/orderList', adminController.load_orderList);
 
 
 module.exports = router;

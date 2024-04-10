@@ -20,7 +20,7 @@ module.exports = {
 
   async signup(req, res) {
     try {
-      const { email, password, recheck } = req.body;
+      const { name, email, password, recheck } = req.body;
       // Check if the user already exists
       let existingUser = await User.findOne({ email });
       if (existingUser) {
@@ -28,7 +28,7 @@ module.exports = {
       }
 
       // Create a new user
-      const newUser = new User({ email, password, recheck });
+      const newUser = new User({ name, email, password, recheck });
       await newUser.save();
       // Generate JWT token for authentication
       const token = AuthController.generateAuthToken(newUser);

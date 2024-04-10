@@ -11,6 +11,8 @@ const router = express.Router();
 
 const UserController = require('../controllers/loginController');
 const AuthController = require('../controllers/authController');
+const withoutLoginController = require('../controllers/homeController');
+
 
 
 router.get('/register', UserController.loadlogin);
@@ -20,7 +22,11 @@ router.get('/logout',UserController.logout);
 
 
 
-router.get('/',clientController.load_home);
+router.get('/',withoutLoginController.withoutLoginHomePage);
+router.get('/withoutLoginProductByID/:id', withoutLoginController.getProductByIdWithoutLogin);
+router.get('/withoutLoginShowProduct', withoutLoginController.withoutLoginShowProducts);
+
+
 router.get('/blog', clientController.load_blog);
 router.get('/product', clientController.load_product);
 router.get('/profile', clientController.load_profile);
@@ -34,7 +40,9 @@ router.delete('/delete_product/:id', clientController.deleteProductFromCart);
 router.get('/checkout',clientController.load_checkout);
 router.get('/confirm' , clientController.load_confirm);
 router.get('/order', clientController.load_order);
-
+router.post('/confirm_order', clientController.createOrder);
+router.get('/orderDetails', clientController.load_orderDetails);
 
 
 module.exports = router;
+

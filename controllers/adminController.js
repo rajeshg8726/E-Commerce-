@@ -2,6 +2,7 @@
 const admin_register = require('../models/adminModels/loginModels');
 const product_category = require('../models/adminModels/productModels');
 const Product = require('../models/adminModels/productDetailsModel');
+const Order = require('../models/orderModel');
 
 const load_admin_dashboard = async (req, res) => {
     try {
@@ -24,6 +25,18 @@ const load_signIn = async (req, res) => {
 const load_signUp = async (req, res) => {
     try {
         res.render('adminview/sign-up');
+        
+    } catch (error) {
+        console.log(error.message);
+        
+    }
+}
+
+const load_orderList = async (req, res) => {
+    try {
+        const allOrders = await Order.find();
+
+        res.render('adminview/order_list' , {orders : allOrders});
         
     } catch (error) {
         console.log(error.message);
@@ -203,6 +216,7 @@ const save_edit_product = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 }
+
 const product_list = async (req, res) => {
 
     try {
@@ -269,6 +283,7 @@ module.exports = {
     load_product_cat,
     load_product_add,
     load_demo_view,
+    load_orderList,
     addProductCategory,
     load_product_edit,
     save_edit_product,

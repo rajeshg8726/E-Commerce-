@@ -5,17 +5,26 @@ const Cart = require('../models/adminModels/cartModel');
 const secret = "rajeshgupta@8726"
 const jwt = require('jsonwebtoken');
 const User = require('../models/loginModel');
+const Order = require('../models/orderModel');
+
+function generateOrderID() {
+    const timestamp = Date.now(); // Get the current timestamp
+    const randomNum = Math.floor(Math.random() * 10000); // Generate a random number between 0 and 9999
+    const uniqueID = `RG${timestamp}${randomNum}`; // Combine the timestamp and random number
+    
+    return uniqueID;
+  }
 
 const load_home = async(req, res) => {
     try {
         const product = await Product.find();
         const categories = await product_category.find();
         
-        res.render('home-02', { product: product, categories: categories});
+        res.render('home-03', { product: product, categories: categories});
 
-    } catch (error) {
         
-        res.status(500).json({ message: 'Internal server error' });
+    } catch (error) {
+        res.status(500).json({message : 'Internal server error'});
     }
 }
 
@@ -120,8 +129,9 @@ const load_order = async (req, res) => {
         //    extracting the cookie from the token
         const payload = jwt.decode(token);
         const cart = await Cart.find({ user_id: payload.userId });
+        const orderlist = await Order.find({userId : payload.userId});
         // console.log(cart);
-        res.render('order', { product: product, categories: categories, user_id: payload.userId, cart: cart });
+        res.render('order', { product: product, categories: categories, user_id: payload.userId, cart: cart , orderlist : orderlist });
 
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
@@ -168,6 +178,30 @@ const load_profile = async (req, res) => {
     }
 }
 
+
+const load_orderDetails = async (req, res) => {
+
+    try {
+        const orderID = req.query.orderID;
+        const product = await Product.find();
+        const categories = await product_category.find();
+        
+        const token = req.cookies.usercookies; // Assuming the token is stored in a cookie named 'usercookies'
+        //    extracting the cookie from the token
+        const payload = jwt.decode(token);
+        const loggeInUser = await User.findById(payload.userId);
+        const cart = await Cart.find({ user_id: payload.userId });
+        const orderDetail = await Order.findOne({orderID:orderID});
+        // console.log(orderDetail);
+
+        // console.log(loggeInUser);
+        res.render('order_details', { product: product, categories: categories, user_id: payload.userId, cart: cart  , user : loggeInUser , orderDetail : orderDetail});
+        
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 const load_checkout = async (req, res) => {
 
     try {
@@ -180,7 +214,7 @@ const load_checkout = async (req, res) => {
         //    extracting the cookie from the token
         const payload = jwt.decode(token);
         const cart = await Cart.find({ user_id: payload.userId });
-        console.log(cart);
+        
         let price = 0;
         if (cart.length > 0 && product.length > 0) {
             for (let i = 0; i < cart.length; i++) {
@@ -199,7 +233,7 @@ const load_checkout = async (req, res) => {
         }
         // console.log(price);
         
-        res.render('checkout', { product: product, categories: categories, user_id: payload.userId, cart: cart , total_price : price});
+        res.render('checkout', { product: product, categories: categories, user_id: payload.userId, cart: cart , total_price : price , cartarr : cartarr});
 
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
@@ -301,6 +335,38 @@ const deleteProductFromCart = async (req, res) => {
     }
 } 
 
+const createOrder = async (req, res) => {
+    try {  
+        // console.log(req.body);
+        const { countryId, paymentmode, state, fullAddress, pincode } = req.body;
+        const orderID = generateOrderID();
+        const orderItems = JSON.parse(req.query.orders);
+        const token = req.cookies.usercookies; // Assuming the token is stored in a cookie named 'usercookies'
+        //    extracting the cookie from the token
+        const payload = jwt.decode(token);
+        const userId = payload.userId;
+        const newOrder = new Order({
+            countryId,
+            paymentmode,
+            state,
+            fullAddress,
+            pincode,
+            orderID,
+            orderItems,
+            userId
+        });
+
+        const order = await newOrder.save();
+        const emptyCart = await Cart.deleteMany({user_id : payload.userId});
+        // res.status(200).json({ message: 'Order saved successfully!' , order});
+        return res.redirect('/confirm');
+
+    } catch (error) {
+        console.error('Error creating order:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 
 
 module.exports = {
@@ -315,9 +381,11 @@ module.exports = {
     load_confirm,
     load_order,
     load_home,
+    load_orderDetails,
     getProductById,
     addProductToCart,
     deleteProductFromCart,
+    createOrder,
 
 }
 
