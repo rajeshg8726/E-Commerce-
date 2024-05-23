@@ -101,7 +101,11 @@ module.exports = {
 
     try {
 
-      res.render('login');
+      const product = await Product.find();
+      const categories = await product_category.find();
+ 
+      res.render('home-03', { product: product, categories: categories});
+
     } catch (error) {
       console.log(error.message);
 

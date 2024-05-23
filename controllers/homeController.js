@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/loginModel');
 const Order = require('../models/orderModel');
 
+
 const withoutLoginHomePage = async (req, res) => {
     try {
         const product = await Product.find();
@@ -20,6 +21,7 @@ const withoutLoginHomePage = async (req, res) => {
 };
 
 
+
 const getProductByIdWithoutLogin = async (req, res) => {
     try {
         const productId = req.params.id;
@@ -27,7 +29,7 @@ const getProductByIdWithoutLogin = async (req, res) => {
         const product = await Product.find();
         const categories = await product_category.find();
         
-        console.log(probyid);
+        // console.log(probyid);
         res.render('withoutLoginProductView', { product: product, categories: categories, probyid: probyid});
 
     } catch (error) {
@@ -55,3 +57,4 @@ module.exports = {
     getProductByIdWithoutLogin,
     withoutLoginShowProducts,
 }
+
